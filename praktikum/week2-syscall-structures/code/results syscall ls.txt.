@@ -1,0 +1,55 @@
+NAMA :Aster Rifani
+KELAS : 1IKRB
+NIM : 250202915
+1. Eksperimen 1 - Analisis System Call (Menjalankan perintah " Strace ls ")
+ Mencatat 5-10 system call pertama yang muncul dan menjelaskan fungsinya:
+
+ a.System Call yang pertama muncul :
+execve("/usr/bin/ls", ["ls"], 0x7ffcf606d030 /* 62 vars */) = 0
+brk(NULL)                               = 0x59effee1c000
+mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0) = 0x78a57e14d000
+access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
+openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
+fstat(3, {st_mode=S_IFREG|0644, st_size=35463, ...}) = 0
+mmap(NULL, 35463, PROT_READ, MAP_PRIVATE, 3, 0) = 0x78a57e144000
+close(3)                                = 0
+openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libselinux.so.1", O_RDONLY|O_CLOEXEC) = 3
+
+ b.Berikut fungsi-fungsi dari system call yang pertama muncul:
+  1.execve("/usr/bin/ls", ["ls"]..")
+    Panggilan System Call pertama untuk mengeksekusi program di Linux.
+  2.brk(NULL) 
+    Mengatur batas akhir diheap memori.Digunakan untik manajemen memori.
+  3.mmap(..)
+    Memetakan area memori ke dalam ruang alamat proses.Digunakan untuk keperluan internal seperti stack atau pustaka dinamis.
+  4.access("/etc/ld.so.preload", R_OK)
+    Mengecek apakah file preload ada dan data bisa dibaca.File ini bisa digunakan untuk preload library secara paksa.
+  5.`openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY O_CLOEXEC)`
+    Membuka file cache pustaka dinamis untuk dibaca,agar sistem bisa menemukan lokasi pustaka (.so) yang dibutuhkan oleh program.
+  6.fstat(3,..)
+    Mengambil informasi status dari file descriptor 3,yaitu file yang baru dibuka.
+  7.mmap(..)
+    Memetakan isi file ke memori agar bisa dibaca lebih efisien.
+  8.close(3)
+    Menutup file descriptor 3 setelah selesai membaca.
+  9.openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libselinux.so.1", ...)
+    Membuka pustaka dinamis (libselinux),salah satu library yang dibutuhkan(ls).
+  10.read(3,...)
+    Membaca isi awal file (libselinux.so.1) untuk memverifikasi bahwa itu adalah file ELF (Executable and Linkable Format).
+
+2. Eksperimen 2 - Menelusuri System Call File I/O (Menjalankan Perintah " strace -e trace=open, read, write, close cat /etc/psswd ")
+ Menganalisis bagaimana file dibuka,dibaca,dan ditutup oleh kernel.
+  a. Membuka file [open()/openat()]
+      Kernel menemukan dan memverifikasi file, lalu memberi file descriptor.
+  b. Membaca isi file [read()]
+      Kernel salin isi file ke buffer program.
+  c. Menampilkan isi file [write()]
+      Kernel kirim data ke layar atau terminal.
+  d. Menutup file [close()]
+      Kernel mengakhiri akses dan lepas file descriptor.
+3. Eksperimen 3 - Mode User vs Kernel (Menjalnkan Perintah " dmesg | tail -n 10 ")
+      Perbedaan output ini dengan output dari program biasa,yaitu:
+      Output dari dmesg berasal dari log kernel yang mencatat aktivitas sistem inti seperti deteksi hardware, 
+driver, dan konfigurasi booting. Sedangkan output dari program biasa seperti cat atau ls berasal dari user space, 
+yang menunjukkan hasil kerja program atau isi file. Jadi keduanya punya sumber yang berbeda — dmesg dari kernel, program 
+biasa dari proses user.
