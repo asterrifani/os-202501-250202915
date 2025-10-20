@@ -86,10 +86,41 @@ Contoh:
 ---
 
 ## Hasil Eksekusi
-Hasil percobaan observasi system call: 
+Hasil percobaan observasi system call:
+### 1. Eksperimen 1 - Analisis System Call (Menjalankan perintah " Strace ls ")
 ![Terminal Linux 1](TerminalLinux1.PNG)
+| No | System Call                        | Fungsi |
+|----|------------------------------------|--------|
+| 1. | `execve ( " /usr/bin/ls",["ls"]..")` | panggilan system call pertama untuk mengeksekusi Linux. |
+| 2. | `brk (null)` | Mengtur batas akhir diheap memori.digunakan untuk manajemen memori.|
+| 3. | `mmap (...)` | Memetakan area memori ke dalam ruang alamat proses.Digunakan untuk keprluan internal seperti stack atau pustaka dinamis. |
+| 4. | `acces("/etc/ld.so.preload" R_OK)` | Mengecek apakah file preload ada dan data bisa dibaca.File ini bisa digunakan untuk preload library secara paksa. |
+| 5. | `openat(AT_FDCWD, "/etc/ld.so.cache",O_RDONLY O_CLOEXEC)` | Membuka file cache pustaka dinamis untuk dibaca,agar sistem bisa menemukan lokasi pustaka (.so) yang dibutuhkan oleh program. |
+| 6. | `fstat(3...)` | Mengambil informasi status dari file descriptor 3,yaitu file yang baru dibuka. |
+| 7. | `mmap(..)` | Memetakan isi file ke memori agar bisa dibaca lebih efisien. |
+| 8. | `openat(AT_FDCWD, "/lib/x86-linux-gnu/libselinux.so.1",...)` | Menutup file descriptor 3 setelah selesai membaca. |
+| 9. | `openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libselinux.so.1", ...)` | Membuka pustaka dinamis (libselinux),salah satu library yang dibutuhkan(ls). |
+| 10. | `read(3,...)` | Membaca isi awal file (libselinux.so.1) untuk memverifikasi bahwa itu adalah file ELF (Executable and Linkable Format). |
+### 2. Eksperimen 2 - Menelusuri System Call File I/O (Menjalankan Perintah " strace -e trace=open, read, write, close cat /etc/psswd ")
 ![Terminal Linux 2](TerminalLinux2.PNG)
+
+ Menganalisis bagaimana file dibuka,dibaca,dan ditutup oleh kernel.
+  1. Membuka file [open()/openat()]
+      Kernel menemukan dan memverifikasi file, lalu memberi file descriptor.
+  2. Membaca isi file [read()]
+      Kernel salin isi file ke buffer program.
+  3. Menampilkan isi file [write()]
+      Kernel kirim data ke layar atau terminal.
+  4. Menutup file [close()]
+      Kernel mengakhiri akses dan lepas file descriptor.
+### 3. Eksperimen 3 - Mode User vs Kernel (Menjalnkan Perintah " dmesg | tail -n 10 ")
 ![Terminal Linux 3](TerminalLinux3.PNG)
+
+ Perbedaan output ini dengan output dari program biasa,yaitu:
+  Output dari dmesg berasal dari log kernel yang mencatat aktivitas sistem inti seperti deteksi hardware, 
+driver, dan konfigurasi booting. Sedangkan output dari program biasa seperti cat atau ls berasal dari user space, 
+yang menunjukkan hasil kerja program atau isi file. Jadi keduanya punya sumber yang berbeda — dmesg dari kernel, program 
+biasa dari proses user.
 
 Hasil diagram:
 ![Diagram2](Diagram2.PNG)
