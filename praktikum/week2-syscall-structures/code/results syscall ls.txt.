@@ -16,26 +16,18 @@ close(3)                                = 0
 openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libselinux.so.1", O_RDONLY|O_CLOEXEC) = 3
 
  b.Berikut fungsi-fungsi dari system call yang pertama muncul:
-  1.execve("/usr/bin/ls", ["ls"]..")
-    Panggilan System Call pertama untuk mengeksekusi program di Linux.
-  2.brk(NULL) 
-    Mengatur batas akhir diheap memori.Digunakan untik manajemen memori.
-  3.mmap(..)
-    Memetakan area memori ke dalam ruang alamat proses.Digunakan untuk keperluan internal seperti stack atau pustaka dinamis.
-  4.access("/etc/ld.so.preload", R_OK)
-    Mengecek apakah file preload ada dan data bisa dibaca.File ini bisa digunakan untuk preload library secara paksa.
-  5.`openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY O_CLOEXEC)`
-    Membuka file cache pustaka dinamis untuk dibaca,agar sistem bisa menemukan lokasi pustaka (.so) yang dibutuhkan oleh program.
-  6.fstat(3,..)
-    Mengambil informasi status dari file descriptor 3,yaitu file yang baru dibuka.
-  7.mmap(..)
-    Memetakan isi file ke memori agar bisa dibaca lebih efisien.
-  8.close(3)
-    Menutup file descriptor 3 setelah selesai membaca.
-  9.openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libselinux.so.1", ...)
-    Membuka pustaka dinamis (libselinux),salah satu library yang dibutuhkan(ls).
-  10.read(3,...)
-    Membaca isi awal file (libselinux.so.1) untuk memverifikasi bahwa itu adalah file ELF (Executable and Linkable Format).
+  | No | System Call                        | Fungsi |
+  |----|------------------------------------|--------|
+  | 1. | `execve ( " /usr/bin/ls",["ls"]..")` | panggilan system call pertama untuk mengeksekusi Linux. |
+  | 2. | `brk (null)` | Mengtur batas akhir diheap memori.digunakan untuk manajemen memori.|
+  | 3. | `mmap (...)` | Memetakan area memori ke dalam ruang alamat proses.Digunakan untuk keprluan internal seperti stack atau pustaka dinamis. |
+  | 4. | `acces("/etc/ld.so.preload" R_OK)` | Mengecek apakah file preload ada dan data bisa dibaca.File ini bisa digunakan untuk preload library secara paksa. |
+  | 5. | `openat(AT_FDCWD, "/etc/ld.so.cache",O_RDONLY O_CLOEXEC)` | Membuka file cache pustaka dinamis untuk dibaca,agar sistem bisa menemukan lokasi pustaka (.so) yang dibutuhkan oleh program. |
+  | 6. | `fstat(3...)` | Mengambil informasi status dari file descriptor 3,yaitu file yang baru dibuka. |
+  | 7. | `mmap(..)` | Memetakan isi file ke memori agar bisa dibaca lebih efisien. |
+  | 8. | `openat(AT_FDCWD, "/lib/x86-linux-gnu/libselinux.so.1",...)` | Menutup file descriptor 3 setelah selesai membaca. |
+  | 9. | `openat(AT_FDCWD, "/lib/x86_64-linux-gnu/libselinux.so.1", ...)` | Membuka pustaka dinamis (libselinux),salah satu library yang dibutuhkan(ls). |
+  | 10. | `read(3,...)` | Membaca isi awal file (libselinux.so.1) untuk memverifikasi bahwa itu adalah file ELF (Executable and Linkable Format). |
 
 2. Eksperimen 2 - Menelusuri System Call File I/O (Menjalankan Perintah " strace -e trace=open, read, write, close cat /etc/psswd ")
  Menganalisis bagaimana file dibuka,dibaca,dan ditutup oleh kernel.
