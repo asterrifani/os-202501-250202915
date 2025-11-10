@@ -100,10 +100,10 @@ Salah satu algoritma penjadwalan yang paling sederhana adalah First Come First S
 ---
 
 ## Hasil Eksekusi
-![alt text](image-2.png)
+![screenshots](screenshots/tabel%20FCFS%20vs%20SJF.png)
 1. Eksperimen 1 – FCFS (First Come First Served).
 
-![alt text](image-1.png)
+![screenshots](screenshots/tabel%20FCFS%20.png)
 
    - Berdasarkan hasil perhitungan menggunakan algoritma **FCFS**, proses dijalankan sesuai urutan kedatangan (*Arrival Time*). Proses pertama yang datang akan dieksekusi terlebih dahulu hingga selesai sebelum proses berikutnya dijalankan.
    - Hasil rata-rata nilai tabel **FCFS**:
@@ -116,7 +116,7 @@ Salah satu algoritma penjadwalan yang paling sederhana adalah First Come First S
    ```
 2. Eksperimen 2 – SJF (Shortest Job First)
 
-![alt text](image.png)
+![screenshots](screenshots/tabel%20SJF.png)
    - Pada eksperimen ini, digunakan algoritma penjadwalan **Shortest Job First** (SJF) non-preemptive, yaitu algoritma yang memilih proses dengan *burst time* paling pendek dari kumpulan proses yang sudah tiba (ready queue). Tujuan dari algoritma ini adalah untuk meminimalkan rata-rata *Waiting Time (WT)* dan *Turnaround Time (TAT)*.
    - Perbandingan antara **SJF** dan **FCFS** :
 
@@ -164,3 +164,6 @@ Tuliskan secara singkat:
 
 **Credit:**  
 _Template laporan praktikum Sistem Operasi (SO-202501) – Universitas Putra Bangsa_
+
+
+[def]: screenshots/tabelFCFSvsSJF.png
