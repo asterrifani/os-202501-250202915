@@ -91,15 +91,58 @@ Topik: Manajemen Memori – Page Replacement (FIFO & LRU)
 ---
 
 ## Hasil Eksekusi
-Sertakan screenshot hasil percobaan atau diagram:
-![Screenshot hasil](screenshots/example.png)
+   1. Hasil eksekusi fifo page replacement:
+![Screenshot](screenshots/Screenshot%202026-01-01%20082908.png)
+   2. Hasil eksekusi lru page replacement:
+   ![Screenshot](screenshots/Screenshot%202026-01-01%20083249.png)
+   3. Summary page replacement fifo vs lru :
+   ![Screenshot](screenshots/Screenshot%202026-01-01%20083734.png)
 
 ---
 
 ## Analisis
-- Jelaskan makna hasil percobaan.  
-- Hubungkan hasil dengan teori (fungsi kernel, system call, arsitektur OS).  
-- Apa perbedaan hasil di lingkungan OS berbeda (Linux vs Windows)?  
+   1. Tabel FIFO
+      | No | Page | Kondisi | Frame 1 | Frame 2 | Frame 3 |
+      | -- | ---- | ------- | ------- | ------- | ------- |
+      | 1  | 7    | Fault   | 7       | –       | –       |
+      | 2  | 0    | Fault   | 7       | 0       | –       | 
+      | 3  | 1    | Fault   | 7       | 0       | 1       |
+      | 4  | 2    | Fault   | 2       | 0       | 1       | 
+      | 5  | 0    | Hit     | 2       | 0       | 1       |
+      | 6  | 3    | Fault   | 2       | 3       | 1       |
+      | 7  | 0    | Fault   | 2       | 3       | 0       |
+      | 8  | 4    | Fault   | 4       | 3       | 0       |
+      | 9  | 2    | Fault   | 4       | 2       | 0       |
+      | 10 | 3    | Fault   | 4       | 2       | 3       |
+      | 11 | 0    | Fault   | 0       | 2       | 3       |
+      | 12 | 3    | Hit     | 0       | 2       | 3       |
+      | 13 | 2    | Hit     | 0       | 2       | 3       |
+      Total Page Fault FIFO : 10
+
+   2. Tabel LRU
+      | No | Page | Kondisi | Frame 1 | Frame 2 | Frame 3 |
+      | -- | ---- | ------- | ------- | ------- | ------- |
+      | 1  | 7    | Fault   | 7       | –       | –       |
+      | 2  | 0    | Fault   | 7       | 0       | –       |
+      | 3  | 1    | Fault   | 7       | 0       | 1       |
+      | 4  | 2    | Fault   | 2       | 0       | 1       |
+      | 5  | 0    | Hit     | 2       | 0       | 1       |
+      | 6  | 3    | Fault   | 2       | 0       | 3       |
+      | 7  | 0    | Hit     | 2       | 0       | 3       |
+      | 8  | 4    | Fault   | 4       | 0       | 3       |
+      | 9  | 2    | Fault   | 4       | 0       | 2       |
+      | 10 | 3    | Fault   | 4       | 3       | 2       |
+      | 11 | 0    | Fault   | 0       | 3       | 2       |
+      | 12 | 3    | Hit     | 0       | 3       | 2       |
+      | 13 | 2    | Hit     | 0       | 3       | 2       |
+      Total Page Fault LRU : 9
+   
+   3. Tabel Perbandingan
+      | Algoritma | Jumlah Page Fault | Keterangan |
+      | --------- | ----------------- | ---------- |
+      | FIFO | 10 | Mengganti halaman paling awal masuk |
+      | LRU | 9 | Mengganti halaman yang paling tidak dipakai |
+
 
 ---
 
