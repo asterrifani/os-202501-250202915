@@ -161,14 +161,12 @@ Ringkasan Metrik:
 
 # B. Output Modul Page Replacement (FIFO):
 
-## | Ref Halaman | Status | Isi Frame |
-
+| Ref Halaman | Status | Isi Frame |
+|--|--|--|
 | 7 | FAULT | [7] |
 | 0 | FAULT | [7, 0] |
 | 1 | FAULT | [7, 0, 1] |
 | 2 | FAULT | [0, 1, 2] |
-
-=====================================================================
 
 - Total Page Fault : 4
 - Fault Rate (%) : 100.00% (pada 4 referensi pertama)
