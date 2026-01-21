@@ -130,7 +130,7 @@ Alur data dalam Mini Simulasi Sistem Operasi ini bergerak secara linier dari inp
 
 2. Persiapan Data: Menyusun file proses.csv di dalam folder data sebagai input otomatis untuk simulasi penjadwalan CPU.
 
-3. Konfigurasi Docker: Membuat Dockerfile dan melakukan build image mini-os-kelompok menggunakan basis JDK 17.
+3. Konfigurasi Docker: Membuat Dockerfile dan melakukan build image mini-os-kelompok menggunakan basis JDK 17 .
 
 4. Penanganan Error: Mengatasi kendala INTERNAL_ERROR pada Docker dengan melakukan restart layanan dan pembersihan cache.
 
