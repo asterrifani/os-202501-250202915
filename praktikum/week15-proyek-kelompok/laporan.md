@@ -207,7 +207,7 @@ docker build -t mini-os-kelompok .
 docker run -it mini-os-kelompok
 ```
 
-Refleksi Diri:
+## Refleksi Diri:
 Untuk bagian refleksi, Anda bisa menuliskan: "Bagian paling menantang adalah melakukan konfigurasi Dockerfile agar dapat melakukan compile Java secara otomatis. Cara mengatasinya adalah dengan menggunakan base image openjdk-slim dan melakukan riset pada dokumentasi resmi Docker."
 
 ---
